@@ -1,0 +1,46 @@
+name: SocksProxy
+options:
+  bundleIdPrefix: com.socksproxy
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+
+packages:
+  CocoaAsyncSocket:
+    url: https://github.com/robbiehanson/CocoaAsyncSocket
+    from: "7.6.8"
+
+targets:
+  SocksProxy:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Models
+      - path: Views
+      - path: ViewModels
+      - path: Services
+      - path: Utils
+      - path: Resources
+    settings:
+      base:
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_ENTITLEMENTS: SocksProxy.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.socksproxy.app
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - package: CocoaAsyncSocket
+    entitlements:
+      path: SocksProxy.entitlements
+      properties:
+        com.apple.developer.networking.networkextension: []
