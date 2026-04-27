@@ -14,7 +14,7 @@ class Socks5Server: NSObject, GCDAsyncSocketDelegate {
     private var clientHandlers: [GCDAsyncSocket: ClientHandler] = [:]
 
     private let upstreamHost = "121.204.251.76"
-    private let upstreamPort: UInt16 = 1081
+    private let upstreamPort: UInt16 = 1080
     private let upstreamUsername = "cb"
     private let upstreamPassword = "cb"
 
