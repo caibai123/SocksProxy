@@ -14,16 +14,16 @@ jobs:
         run: xcodegen generate
       - name: Build
         run: |
-          xcodebuild -project SocksProxy.xcodeproj
-            -scheme SocksProxy
-            -configuration Release
-            -destination generic/platform=iOS
-            -derivedDataPath ~/Library/Developer/Xcode/DerivedData/SocksProxy
-            CODE_SIGN_IDENTITY=""
-            CODE_SIGNING_REQUIRED=NO
-            CODE_SIGNING_ALLOWED=NO
-            build
+          xcodebuild -project SocksProxy.xcodeproj             -scheme SocksProxy             -configuration Release             -destination generic/platform=iOS             -derivedDataPath ~/Library/Developer/Xcode/DerivedData/SocksProxy             CODE_SIGN_IDENTITY=             CODE_SIGNING_REQUIRED=NO             CODE_SIGNING_ALLOWED=NO             build 2>&1 | tee build.log
+      - name: Show build log on failure
+        if: failure()
+        run: |
+          echo '=== LAST 100 LINES OF BUILD LOG ==='
+          tail -100 build.log
+          echo '=== SEARCHING FOR ERRORS ==='
+          grep -i 'error:' build.log | head -20 || echo 'No error: lines found'
       - name: Package IPA
+        if: success()
         run: |
           APP_PATH=$(ls ~/Library/Developer/Xcode/DerivedData/SocksProxy/Build/Products/Release-iphoneos/*.app 2>/dev/null | head -1)
           mkdir -p Payload
@@ -31,6 +31,7 @@ jobs:
           zip -r "SocksProxy_$(date +%Y%m%d%H%M%S).ipa" Payload
           rm -rf Payload
       - name: Upload IPA
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: SocksProxy-ipa
