@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
       - name: Remove stale xcodeproj
         run: rm -rf SocksProxy.xcodeproj
       - name: Generate Xcode project
