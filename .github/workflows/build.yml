@@ -5,14 +5,14 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
+      - name: Remove stale xcodeproj
+        run: rm -rf SocksProxy.xcodeproj
 
       - name: Generate Xcode project
         run: xcodegen generate
@@ -22,15 +22,7 @@ jobs:
 
       - name: Build
         run: |
-          xcodebuild -project SocksProxy.xcodeproj \
-            -scheme SocksProxy \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -derivedDataPath ~/Library/Developer/Xcode/DerivedData/SocksProxy \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            build
+          xcodebuild -project SocksProxy.xcodeproj \n            -scheme SocksProxy \n            -configuration Release \n            -destination 'generic/platform=iOS' \n            -derivedDataPath ~/Library/Developer/Xcode/DerivedData/SocksProxy \n            CODE_SIGN_IDENTITY="" \n            CODE_SIGNING_REQUIRED=NO \n            CODE_SIGNING_ALLOWED=NO \n            build
 
       - name: Package IPA
         run: |
@@ -46,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SocksProxy-ipa
-          path: 'SocksProxy_*.ipa'
+          path: |SocksProxy_*.ipa
