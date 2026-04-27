@@ -20,7 +20,7 @@ settings:
 packages:
   CocoaAsyncSocket:
     url: https://github.com/robbiehanson/CocoaAsyncSocket
-    from: "7.6.8"
+    from: "7.6.5"
 
 targets:
   SocksProxy:
