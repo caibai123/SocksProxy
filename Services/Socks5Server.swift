@@ -1,4 +1,5 @@
 import Foundation
+import CocoaAsyncSocket
 
 protocol Socks5ServerDelegate: AnyObject {
     func socks5ServerDidStart(port: UInt16)
@@ -55,8 +56,6 @@ class Socks5Server: NSObject, GCDAsyncSocketDelegate {
         delegate?.socks5ServerDidStop()
     }
 
-    // MARK: - GCDAsyncSocketDelegate (listen socket)
-
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         let handler = ClientHandler(
             clientSocket: newSocket,
@@ -82,8 +81,6 @@ class Socks5Server: NSObject, GCDAsyncSocketDelegate {
         clientHandlers.removeValue(forKey: socket)
     }
 }
-
-// MARK: - Client Connection Handler
 
 class ClientHandler: NSObject, GCDAsyncSocketDelegate {
     let clientSocket: GCDAsyncSocket
@@ -135,8 +132,6 @@ class ClientHandler: NSObject, GCDAsyncSocketDelegate {
         clientSocket.disconnect()
     }
 
-    // MARK: - GCDAsyncSocketDelegate
-
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         if sock === upstreamSocket {
             startUpstreamHandshake()
@@ -173,8 +168,6 @@ class ClientHandler: NSObject, GCDAsyncSocketDelegate {
     func socket(_ sock: GCDAsyncSocket, shouldTimeoutWriteWithTag tag: Int, elapsed: TimeInterval, bytesDone length: UInt) -> TimeInterval {
         return -1
     }
-
-    // MARK: - Client Protocol Processing
 
     private func processClientBuffer() {
         switch stage {
@@ -336,8 +329,6 @@ class ClientHandler: NSObject, GCDAsyncSocketDelegate {
         }
     }
 
-    // MARK: - Upstream SOCKS5 Handshake
-
     private func startUpstreamHandshake() {
         guard let upstream = upstreamSocket else { return }
 
@@ -464,8 +455,6 @@ class ClientHandler: NSObject, GCDAsyncSocketDelegate {
         }
     }
 
-    // MARK: - Relay
-
     private func startRelay() {
         stage = .relay
         clientSocket.readData(withTimeout: 0, tag: 0)
@@ -481,8 +470,6 @@ class ClientHandler: NSObject, GCDAsyncSocketDelegate {
         guard !data.isEmpty else { return }
         clientSocket.write(data, withTimeout: 0, tag: 0)
     }
-
-    // MARK: - Client Reply
 
     private func sendClientReply(reply: UInt8, bindHost: String, bindPort: UInt16) {
         var resp = Data([0x05, reply, 0x00, 0x01])
