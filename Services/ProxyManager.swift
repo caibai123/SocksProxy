@@ -1,187 +1,87 @@
 import Foundation
 import Combine
 
-enum ConnectionStatus: Equatable {
-    case disconnected
-    case connecting
-    case connected
-    case error(String)
-
-    static func == (lhs: ConnectionStatus, rhs: ConnectionStatus) -> Bool {
-        switch (lhs, rhs) {
-        case (.disconnected, .disconnected): return true
-        case (.connecting, .connecting): return true
-        case (.connected, .connected): return true
-        case (.error(let a), .error(let b)): return a == b
-        default: return false
-        }
-    }
-}
-
-enum ConnectionError: Error, LocalizedError {
-    case invalidServer
-    case connectionTimeout
-    case authenticationFailed
-    case serverUnreachable
-    case networkError(String)
-    case unknown
-
-    var errorDescription: String? {
-        switch self {
-        case .invalidServer:
-            return "无效的服务器配置"
-        case .connectionTimeout:
-            return "连接超时"
-        case .authenticationFailed:
-            return "认证失败"
-        case .serverUnreachable:
-            return "服务器不可达"
-        case .networkError(let message):
-            return "网络错误: \(message)"
-        case .unknown:
-            return "未知错误"
-        }
-    }
-}
-
-class ProxyManager: ObservableObject, Socks5ConnectionDelegate {
+class ProxyManager: ObservableObject {
     static let shared = ProxyManager()
 
-    @Published var status: ConnectionStatus = .disconnected
-    @Published var currentServer: ProxyServer?
+    @Published var status: ProxyStatus = .disconnected
+    @Published var connectionDuration: String = "--:--:--"
     @Published var errorMessage: String?
-    @Published var connectionStartTime: Date?
 
-    private var connection: Socks5Connection?
-    private var cancellables = Set<AnyCancellable>()
-    private var reconnectAttempts = 0
-    private let maxReconnectAttempts = 3
+    private var server: Socks5Server?
+    private var connectionStartTime: Date?
+    private var durationTimer: Timer?
 
     private init() {}
 
-    func connect(to server: ProxyServer) {
-        guard status != .connecting else { return }
-
-        // Validate server configuration
-        guard isValidServer(server) else {
-            status = .error(ConnectionError.invalidServer.localizedDescription ?? "无效服务器")
-            errorMessage = ConnectionError.invalidServer.localizedDescription
-            return
-        }
+    func connect() {
+        guard case .disconnected = status else { return }
 
         status = .connecting
-        currentServer = server
         errorMessage = nil
-        reconnectAttempts = 0
 
-        establishConnection(to: server)
-    }
-
-    private func establishConnection(to server: ProxyServer) {
-        connection?.disconnect()
-        connection = Socks5Connection(delegate: self)
-
-        // Add connection timeout
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-            guard let self = self else { return }
-            if case .connecting = self.status {
-                self.connection?.disconnect()
-                self.status = .error("连接超时")
-                self.errorMessage = "连接超时，请检查服务器地址和端口"
-            }
-        }
-
-        connection?.connect(to: server)
+        server = Socks5Server()
+        server?.delegate = self
+        server?.start(port: 1080)
     }
 
     func disconnect() {
-        connection?.disconnect()
-        connection = nil
-        status = .disconnected
+        durationTimer?.invalidate()
+        durationTimer = nil
+
+        server?.stop()
+        server = nil
+
         connectionStartTime = nil
-        reconnectAttempts = 0
+        status = .disconnected
+        connectionDuration = "--:--:--"
     }
+}
 
-    func reconnect() {
-        guard let server = currentServer else { return }
-
-        if reconnectAttempts < maxReconnectAttempts {
-            reconnectAttempts += 1
-            disconnect()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.status = .connecting
-                self?.establishConnection(to: server)
-            }
-        } else {
-            errorMessage = "重连失败，已达到最大重试次数"
-            status = .error("重连失败")
+extension ProxyManager: Socks5ServerDelegate {
+    func socks5ServerDidStart(port: UInt16) {
+        DispatchQueue.main.async {
+            self.status = .connected(localPort: port)
+            self.connectionStartTime = Date()
+            self.startDurationTimer()
         }
     }
 
-    private func isValidServer(_ server: ProxyServer) -> Bool {
-        return !server.host.isEmpty &&
-               server.port > 0 &&
-               server.port <= 65535
-    }
-
-    // MARK: - Connection Statistics
-
-    var connectionDuration: String {
-        guard let startTime = connectionStartTime else { return "--:--:--" }
-
-        let interval = Date().timeIntervalSince(startTime)
-        let hours = Int(interval) / 3600
-        let minutes = (Int(interval) % 3600) / 60
-        let seconds = Int(interval) % 60
-
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    }
-
-    // MARK: - Socks5ConnectionDelegate
-
-    func connectionDidConnect() {
-        status = .connected
-        connectionStartTime = Date()
-        errorMessage = nil
-        reconnectAttempts = 0
-
-        // Start connection duration timer
-        startDurationTimer()
-    }
-
-    func connectionDidDisconnect(error: Error?) {
-        let wasConnected = connectionStartTime != nil
-
-        status = .disconnected
-        connectionStartTime = nil
-
-        if let error = error {
-            errorMessage = error.localizedDescription
-
-            // Auto-reconnect on unexpected disconnect
-            if wasConnected && reconnectAttempts < maxReconnectAttempts {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                    self?.reconnect()
-                }
-            }
+    func socks5ServerDidStop() {
+        DispatchQueue.main.async {
+            self.status = .disconnected
         }
     }
 
-    func connectionDidFail(with error: Error) {
-        status = .error(error.localizedDescription)
-        errorMessage = error.localizedDescription
-        connectionStartTime = nil
+    func socks5ServerDidFail(error: String) {
+        DispatchQueue.main.async {
+            self.status = .error(error)
+            self.errorMessage = error
+        }
     }
+}
 
-    // MARK: - Timer
-
-    private var durationTimer: Timer?
-
+extension ProxyManager {
     private func startDurationTimer() {
         durationTimer?.invalidate()
         durationTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.objectWillChange.send()
+            guard let self = self, let start = self.connectionStartTime else { return }
+            let interval = Int(Date().timeIntervalSince(start))
+            let h = interval / 3600
+            let m = (interval % 3600) / 60
+            let s = interval % 60
+            self.connectionDuration = String(format: "%02d:%02d:%02d", h, m, s)
+        }
+    }
+}
+
+extension ProxyStatus: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .disconnected: return "未连接"
+        case .connecting: return "连接中..."
+        case .connected(let port): return "已连接 (本地端口: \(port))"
+        case .error(let msg): return "错误: \(msg)"
         }
     }
 }

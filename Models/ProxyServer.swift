@@ -1,25 +1,19 @@
 import Foundation
 
-struct ProxyServer: Identifiable, Codable, Equatable {
+struct ProxyServer: Identifiable, Codable {
     var id: UUID
     var name: String
     var host: String
     var port: Int
     var username: String?
     var password: String?
-    var isSelected: Bool
 
-    init(id: UUID = UUID(), name: String, host: String, port: Int, username: String? = nil, password: String? = nil, isSelected: Bool = false) {
-        self.id = id
-        self.name = name
-        self.host = host
-        self.port = port
-        self.username = username
-        self.password = password
-        self.isSelected = isSelected
-    }
-
-    static func == (lhs: ProxyServer, rhs: ProxyServer) -> Bool {
-        lhs.id == rhs.id
-    }
+    static let defaultServer = ProxyServer(
+        id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
+        name: "默认服务器",
+        host: "121.204.251.76",
+        port: 1081,
+        username: "cb",
+        password: "cb"
+    )
 }

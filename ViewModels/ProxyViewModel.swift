@@ -2,37 +2,35 @@ import Foundation
 import Combine
 
 class ProxyViewModel: ObservableObject {
-    @Published var status: ConnectionStatus = .disconnected
-    @Published var currentServer: ProxyServer?
+    @Published var status: ProxyStatus = .disconnected
+    @Published var connectionDuration: String = "--:--:--"
     @Published var errorMessage: String?
 
     private let proxyManager = ProxyManager.shared
     private var cancellables = Set<AnyCancellable>()
 
     var isConnected: Bool {
-        if case .connected = status {
-            return true
-        }
+        if case .connected = status { return true }
         return false
     }
 
     var isConnecting: Bool {
-        if case .connecting = status {
-            return true
-        }
+        if case .connecting = status { return true }
         return false
+    }
+
+    var buttonText: String {
+        if isConnecting { return "连接中..." }
+        if isConnected { return "断开连接" }
+        return "连接代理"
     }
 
     var statusText: String {
         switch status {
-        case .disconnected:
-            return "未连接"
-        case .connecting:
-            return "连接中..."
-        case .connected:
-            return "已连接"
-        case .error(let message):
-            return "错误: \(message)"
+        case .disconnected: return "未连接"
+        case .connecting: return "连接中..."
+        case .connected(let port): return "已连接 (端口: \(port))"
+        case .error(let msg): return "错误: \(msg)"
         }
     }
 
@@ -48,10 +46,10 @@ class ProxyViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        proxyManager.$currentServer
+        proxyManager.$connectionDuration
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] server in
-                self?.currentServer = server
+            .sink { [weak self] duration in
+                self?.connectionDuration = duration
             }
             .store(in: &cancellables)
 
@@ -63,21 +61,11 @@ class ProxyViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func connect() {
-        if let server = currentServer {
-            proxyManager.connect(to: server)
-        } else if let selectedServer = ServerListViewModel.shared.servers.first(where: { $0.isSelected }) {
-            currentServer = selectedServer
-            proxyManager.connect(to: selectedServer)
+    func toggle() {
+        if isConnected || isConnecting {
+            proxyManager.disconnect()
+        } else {
+            proxyManager.connect()
         }
-    }
-
-    func disconnect() {
-        proxyManager.disconnect()
-    }
-
-    func selectServer(_ server: ProxyServer) {
-        currentServer = server
-        ServerListViewModel.shared.selectServer(server)
     }
 }

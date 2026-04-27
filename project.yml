@@ -13,7 +13,9 @@ settings:
     MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
     DEVELOPMENT_TEAM: ""
-    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGNING_ALLOWED: "NO"
 
 packages:
   CocoaAsyncSocket:
@@ -30,17 +32,11 @@ targets:
       - path: Views
       - path: ViewModels
       - path: Services
-      - path: Utils
       - path: Resources
     settings:
       base:
         INFOPLIST_FILE: Info.plist
-        CODE_SIGN_ENTITLEMENTS: SocksProxy.entitlements
         PRODUCT_BUNDLE_IDENTIFIER: com.socksproxy.app
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     dependencies:
       - package: CocoaAsyncSocket
-    entitlements:
-      path: SocksProxy.entitlements
-      properties:
-        com.apple.developer.networking.networkextension: []

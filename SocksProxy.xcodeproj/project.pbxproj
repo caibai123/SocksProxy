@@ -1,0 +1,395 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+
+		FF0B52719 /* SocksProxyApp.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF0B52719 /* App/SocksProxyApp.swift */; };
+
+		FF5B4D0D1 /* ProxyServer.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF5B4D0D1 /* Models/ProxyServer.swift */; };
+
+		FF0AAF240 /* ProxyStatus.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF0AAF240 /* Models/ProxyStatus.swift */; };
+
+		FF38E8A15 /* ProxyManager.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF38E8A15 /* Services/ProxyManager.swift */; };
+
+		FF5F224FF /* Socks5Server.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF5F224FF /* Services/Socks5Server.swift */; };
+
+		FF37AB37B /* ProxyViewModel.swift in Sources */ = { isa = PBXBuildFile; fileRef = FF37AB37B /* ViewModels/ProxyViewModel.swift */; };
+
+		FFFCF26BE /* ContentView.swift in Sources */ = { isa = PBXBuildFile; fileRef = FFFCF26BE /* Views/ContentView.swift */; };
+
+		FF5233201 /* Assets.xcassets in Resources */ = { isa = PBXBuildFile; fileRef = FF5233201 /* Resources/Assets.xcassets */; };
+
+		FFEB2EDFD /* Info.plist in Resources */ = { isa = PBXBuildFile; fileRef = FFEB2EDFD /* Info.plist */; };
+
+		FFC88B2FD /* SocksProxy.entitlements in Resources */ = { isa = PBXBuildFile; fileRef = FFC88B2FD /* SocksProxy.entitlements */; };
+
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+
+		FF0B52719 /* App/SocksProxyApp.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SocksProxyApp.swift"; path = "App/SocksProxyApp.swift"; sourceTree = "<group>"; };
+		FF8CD000A /* Models/ProxyRule.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ProxyRule.swift"; path = "Models/ProxyRule.swift"; sourceTree = "<group>"; };
+		FF5B4D0D1 /* Models/ProxyServer.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ProxyServer.swift"; path = "Models/ProxyServer.swift"; sourceTree = "<group>"; };
+		FF0AAF240 /* Models/ProxyStatus.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ProxyStatus.swift"; path = "Models/ProxyStatus.swift"; sourceTree = "<group>"; };
+		FF38E8A15 /* Services/ProxyManager.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ProxyManager.swift"; path = "Services/ProxyManager.swift"; sourceTree = "<group>"; };
+		FF5F224FF /* Services/Socks5Server.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Socks5Server.swift"; path = "Services/Socks5Server.swift"; sourceTree = "<group>"; };
+		FF37AB37B /* ViewModels/ProxyViewModel.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ProxyViewModel.swift"; path = "ViewModels/ProxyViewModel.swift"; sourceTree = "<group>"; };
+		FFFCF26BE /* Views/ContentView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ContentView.swift"; path = "Views/ContentView.swift"; sourceTree = "<group>"; };
+		FF5233201 /* Resources/Assets.xcassets */ = { isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Assets.xcassets"; path = "Resources/Assets.xcassets"; sourceTree = "<group>"; };
+		FFEB2EDFD /* Info.plist */ = { isa = PBXFileReference; lastKnownFileType = plist.plist; name = "Info.plist"; path = "Info.plist"; sourceTree = "<group>"; };
+		FFC88B2FD /* SocksProxy.entitlements */ = { isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "SocksProxy.entitlements"; path = "SocksProxy.entitlements"; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718091A2B3C4D5E6F02 /* SocksProxy.app */ = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocksProxy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F06 = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F09 /* SocksProxy */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F07 /* Products */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F20 /* SPM Packages */,
+			);
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F20 = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F21 /* CocoaAsyncSocket */,
+			);
+			name = "SPM Packages";
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F21 = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/robbiehanson/CocoaAsyncSocket";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.6.8;
+			};
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F07 = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F02 /* SocksProxy.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F09 = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F08 /* Resources */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F10 /* App */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F11 /* Models */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F12 /* Services */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F13 /* ViewModels */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F14 /* Views */,
+			);
+			name = SocksProxy;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F08 = {
+			isa = PBXGroup;
+			children = (
+				FF5233201 /* Assets.xcassets */,
+				FFEB2EDFD /* Info.plist */,
+				FFC88B2FD /* SocksProxy.entitlements */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F10 = {
+			isa = PBXGroup;
+			children = (
+				FF0B52719 /* SocksProxyApp.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F11 = {
+			isa = PBXGroup;
+			children = (
+				FF8CD000A /* ProxyRule.swift */,
+				FF5B4D0D1 /* ProxyServer.swift */,
+				FF0AAF240 /* ProxyStatus.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F12 = {
+			isa = PBXGroup;
+			children = (
+				FF38E8A15 /* ProxyManager.swift */,
+				FF5F224FF /* Socks5Server.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F13 = {
+			isa = PBXGroup;
+			children = (
+				FF37AB37B /* ProxyViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F14 = {
+			isa = PBXGroup;
+			children = (
+				FFFCF26BE /* ContentView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F03 /* SocksProxy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1B2C3D4E5F60718091A2B3C4D5E6F18 /* Build configuration list for PBXNativeTarget "SocksProxy" */;
+			buildPhases = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F15 /* Sources */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F16 /* Resources */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F17 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				{
+					isa = XCRemoteSwiftPackageReference;
+					product = "CocoaAsyncSocket";
+					target = "";
+				},
+			);
+			name = SocksProxy;
+			productName = SocksProxy;
+			productReference = A1B2C3D4E5F60718091A2B3C4D5E6F02 /* SocksProxy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A1B2C3D4E5F60718091A2B3C4D5E6F03 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A1B2C3D4E5F60718091A2B3C4D5E6F18 /* Build configuration list for PBXProject "SocksProxy" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1B2C3D4E5F60718091A2B3C4D5E6F06;
+			productRefGroup = A1B2C3D4E5F60718091A2B3C4D5E6F07 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F03 /* SocksProxy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F16 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF5233201 /* Assets.xcassets in Resources */,
+				FFEB2EDFD /* Info.plist in Resources */,
+				FFC88B2FD /* SocksProxy.entitlements in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF0B52719 /* SocksProxyApp.swift in Sources */,
+				FF8CD000A /* ProxyRule.swift in Sources */,
+				FF5B4D0D1 /* ProxyServer.swift in Sources */,
+				FF0AAF240 /* ProxyStatus.swift in Sources */,
+				FF38E8A15 /* ProxyManager.swift in Sources */,
+				FF5F224FF /* Socks5Server.swift in Sources */,
+				FF37AB37B /* ProxyViewModel.swift in Sources */,
+				FFFCF26BE /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_BASED_CONSTRUCTOR = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_LIST = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZE_SINGLE_MIGRATION_TARGET = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				DEVELOPMENT_TEAM = "";
+				MARKETING_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.socksproxy.app;
+			};
+			name = Debug;
+		};
+		A1B2C3D4E5F60718091A2B3C4D5E6F19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_BASED_CONSTRUCTOR = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_LIST = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZE_SINGLE_MIGRATION_TARGET = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				DEVELOPMENT_TEAM = "";
+				MARKETING_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.socksproxy.app;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1B2C3D4E5F60718091A2B3C4D5E6F18 /* Build configuration list for PBXNativeTarget "SocksProxy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1B2C3D4E5F60718091A2B3C4D5E6F18 /* Debug */,
+				A1B2C3D4E5F60718091A2B3C4D5E6F19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A1B2C3D4E5F60718091A2B3C4D5E6F01 /* Project object */;
+}
